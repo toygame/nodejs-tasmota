@@ -15,7 +15,7 @@ const mqttConfig = {
 }
 const client  = mqtt.connect(mqttConfig) // create connection to mqtt broker
 client.on('connect', function () {
-  client.subscribe('tasmota', function (err) {
+  client.subscribe('tasmota/#', function (err) {
     if (!err) {
       client.publish('tasmota', 'Hello from application mqtt')
     }
@@ -25,12 +25,10 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
   // message is Buffer
   console.log(message.toString())
-  client.end()
 })
 //------------------------------------//
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -44,8 +42,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Route endpoint
+indexRouter(app,client)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

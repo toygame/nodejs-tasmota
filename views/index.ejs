@@ -2,10 +2,27 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Welcome nodejs-tasmota</p>
+    <button id="butt_on">เปิด</button>
+    <button id="butt_off">ปิด</button>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $("#butt_on").click(function (event) {
+      event.preventDefault();
+      $.get("/control/on", function (data, status) {
+        alert("Data: " + data + "\nStatus: " + status);
+      });
+    });
+    $("#butt_off").click(function (event) {
+      event.preventDefault();
+      $.get("/control/off", function (data, status) {
+        alert("Data: " + data + "\nStatus: " + status);
+      });
+    });
+  </script>
 </html>
